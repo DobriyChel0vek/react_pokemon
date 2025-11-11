@@ -1,20 +1,21 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import '../css/Pokemon.css';
 
 const BaseUrl = "https://pokeapi.co/api/v2/pokemon/";
 
 export function Pokemons() {
-  
   const [allPokemonList, setAllPokemonList] = useState([]);
   const [visibleCount, setVisibleCount] = useState(4);
   const [allPokemonLoaded, setAllPokemonLoaded] = useState(false);
   const [nextUrl, setNextUrl] = useState(BaseUrl);
   const [detailsLoading, setDetailsLoading] = useState(false);
 
+  const navigate = useNavigate();
+
   const observer = useRef();
   const lastPokemonRef = useRef();
 
-  //Функция загрузки списка
   const fetchPokemonList = async (url) => {
     try {
       const response = await fetch(url);
@@ -33,7 +34,6 @@ export function Pokemons() {
     }
   };
 
-  //Загрузка начального списка
   useEffect(() => {
     let isMounted = true;
 
@@ -55,7 +55,6 @@ export function Pokemons() {
     };
   }, []);
 
-  //Функция подгрузки
   const loadMore = useCallback(async () => {
     if (!nextUrl || allPokemonLoaded || detailsLoading) return;
 
@@ -65,7 +64,6 @@ export function Pokemons() {
       const data = await fetchPokemonList(nextUrl);
       const newPokemon = data.results;
 
-      //Добавляем новых покемонов
       setAllPokemonList(prev => [...prev, ...newPokemon]);
 
       setNextUrl(data.next);
@@ -81,7 +79,6 @@ export function Pokemons() {
 
   const displayList = allPokemonList.slice(0, visibleCount);
 
-  
   useEffect(() => {
     if (displayList.length === 0) return;
 
@@ -108,17 +105,10 @@ export function Pokemons() {
     };
   }, [displayList.length, allPokemonLoaded, detailsLoading, loadMore]);
 
-  const handlePokemonClick = async (pokemon) => {
-    console.log("Клик на:", pokemon.name, pokemon.url);
-
-    try {
-      const response = await fetch(pokemon.url);
-      if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-      const detailsData = await response.json();
-      console.log("Детали покемона:", detailsData);
-    } catch (err) {
-      console.error("Ошибка загрузки деталей:", err);
-    }
+  // Функция, вызываемая при клике на покемона
+  const handlePokemonClick = (pokemon) => {
+    console.log("Переход к:", pokemon.name);
+    navigate(`/pokemon/${pokemon.name}`); 
   };
 
   return (
