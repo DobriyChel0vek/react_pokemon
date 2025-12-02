@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import PokemonDetails from './PokemonDetails';
+import { PokemonDetails } from '../PokemonPage';
 
 const PokemonDetailsPage = () => {
   const { name } = useParams(); // Получаем имя покемона из URL

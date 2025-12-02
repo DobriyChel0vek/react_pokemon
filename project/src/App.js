@@ -1,8 +1,9 @@
-// src/App.js
+
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import PokemonDetailsPage from './components/PokemonDetailsPage';
-import { Pokemons } from './components/Pokemons';
+import { Pokemons } from './pages/HomePage/Pokemons';
+import PokemonDetailsPage from './pages/PokemonStatsPage/PokemonDetailsPage';
+import { PokemonDetails } from './pages/PokemonPage';
 
 function App() {
   return (

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import '../css/Pokemon.css';
+import { useNavigate } from 'react-router-dom';
+import styles from './PokemonsPage.module.css';
 
 const BaseUrl = "https://pokeapi.co/api/v2/pokemon/";
 
@@ -105,28 +105,27 @@ export function Pokemons() {
     };
   }, [displayList.length, allPokemonLoaded, detailsLoading, loadMore]);
 
-  // Функция, вызываемая при клике на покемона
   const handlePokemonClick = (pokemon) => {
     console.log("Переход к:", pokemon.name);
-    navigate(`/pokemon/${pokemon.name}`); 
+    navigate(`/pokemon/${pokemon.name}`);
   };
 
   return (
-    <div className="pokemon-container">
+    <div className={styles['pokemon-container']}>
       <h1>Pokemons</h1>
-      <div className="pokemon-grid">
+      <div className={styles['pokemon-grid']}>
         {displayList.map((pokemon, index) => (
-          <div key={`${pokemon.id}-${index}`} className="pokemon-card">
+          <div key={`${pokemon.id}-${index}`} className={styles['pokemon-card']}>
             <img
               src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`}
               alt={pokemon.name}
-              className="pokemon-image"
+              className={styles['pokemon-image']}
               onError={(e) => {
                 e.target.src = "https://via.placeholder.com/120?text=No+Image";
                 e.target.alt = "Изображение не доступно";
               }}
             />
-            <button type="button" className="pokemon-button" onClick={() => handlePokemonClick(pokemon)}>
+            <button type="button" className={styles['pokemon-button']} onClick={() => handlePokemonClick(pokemon)}>
               {pokemon.name}
             </button>
           </div>

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import '../css/PokemonDetails.css';
+import { useState, useEffect } from 'react';
+import styles from './PokemonPage.module.css';
 
-const PokemonDetails = ({ pokemonName, onClose }) => { // onClose — для кнопки "Назад"
+const PokemonDetails = ({ pokemonName, onClose }) => {
   const [pokemon, setPokemon] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,16 +10,21 @@ const PokemonDetails = ({ pokemonName, onClose }) => { // onClose — для к�
 
   useEffect(() => {
     const fetchPokemon = async () => {
-      if (!pokemonName) return;
+      if (!pokemonName) {
+        setLoading(false);
+        return;
+      }
+
+      const cleanName = pokemonName.trim().toLowerCase();
 
       try {
         setLoading(true);
         setError(null);
 
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`);
-        
+
         if (!response.ok) {
-          throw new Error(`Pokemon "${pokemonName}" not found`);
+          throw new Error(`Pokemon "${cleanName}" not found`);
         }
 
         const data = await response.json();
@@ -47,20 +52,20 @@ const PokemonDetails = ({ pokemonName, onClose }) => { // onClose — для к�
   }
 
   return (
-    <div className="pokemon-details-card">
-      <h2 className="pokemon-details-name">{pokemon.name.toUpperCase()}</h2>
+    <div className={styles['pokemon-details-card']}>
+      <h2 className={styles['pokemon-details-name']}>{pokemon.name.toUpperCase()}</h2>
       <img
-        className="pokemon-details-image"
+        className={styles['pokemon-details-image']}
         src={pokemon.sprites.front_default}
         alt={pokemon.name}
         onError={(e) => {
-          e.target.src = "https://via.placeholder.com/200?text=No+Image";
-          e.target.alt = "Image not available";
+          e.target.src = 'https://via.placeholder.com/200?text=No+Image';
+          e.target.alt = 'Image not available';
         }}
       />
 
       <button
-        className="pokemon-details-toggle-btn"
+        className={styles['pokemon-details-toggle-btn']}
         onClick={() => setShowCharacteristic(!showCharacteristic)}
         type="button"
       >
@@ -68,7 +73,7 @@ const PokemonDetails = ({ pokemonName, onClose }) => { // onClose — для к�
       </button>
 
       {showCharacteristic && (
-        <div className="pokemon-details-section">
+        <div className={styles['pokemon-details-section']}>
           <h3>Characteristic:</h3>
           <ul>
             <li><strong>ID:</strong> {pokemon.id}</li>
@@ -82,7 +87,7 @@ const PokemonDetails = ({ pokemonName, onClose }) => { // onClose — для к�
       )}
 
       <button
-        className="pokemon-details-toggle-btn"
+        className={styles['pokemon-details-toggle-btn']}
         onClick={() => setShowStats(!showStats)}
         type="button"
       >
@@ -90,7 +95,7 @@ const PokemonDetails = ({ pokemonName, onClose }) => { // onClose — для к�
       </button>
 
       {showStats && (
-        <div className="pokemon-details-section">
+        <div className={styles['pokemon-details-section']}>
           <h3>Stats:</h3>
           <ul>
             {pokemon.stats.map(stat => (
