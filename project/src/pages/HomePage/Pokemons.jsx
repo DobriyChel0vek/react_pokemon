@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './PokemonsPage.module.css';
+import { fetchPokemonList } from '../../utilits/api';
 
 const BaseUrl = "https://pokeapi.co/api/v2/pokemon/";
 
@@ -12,39 +13,22 @@ export function Pokemons() {
   const [detailsLoading, setDetailsLoading] = useState(false);
 
   const navigate = useNavigate();
-
   const observer = useRef();
   const lastPokemonRef = useRef();
-
-  const fetchPokemonList = async (url) => {
-    try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-      const data = await response.json();
-
-      const resultsWithId = data.results.map(pokemon => ({
-        ...pokemon,
-        id: parseInt(pokemon.url.split('/').filter(Boolean).pop(), 10)
-      }));
-
-      return { ...data, results: resultsWithId };
-    } catch (err) {
-      console.error("Ошибка загрузки списка:", err);
-      return { results: [], next: null, count: 0 };
-    }
-  };
 
   useEffect(() => {
     let isMounted = true;
 
     const loadInitialList = async () => {
-      const data = await fetchPokemonList(BaseUrl);
-      if (!isMounted) return;
+      try {
+        const { results, next } = await fetchPokemonList(BaseUrl);
+        if (!isMounted) return;
 
-      setAllPokemonList(data.results);
-      setNextUrl(data.next);
-      if (!data.next) {
-        setAllPokemonLoaded(true);
+        setAllPokemonList(results);
+        setNextUrl(next);
+        if (!next) setAllPokemonLoaded(true);
+      } catch (err) {
+        console.error("Ошибка загрузки начального списка:", err);
       }
     };
 
@@ -61,17 +45,12 @@ export function Pokemons() {
     setDetailsLoading(true);
 
     try {
-      const data = await fetchPokemonList(nextUrl);
-      const newPokemon = data.results;
-
-      setAllPokemonList(prev => [...prev, ...newPokemon]);
-
-      setNextUrl(data.next);
-      if (!data.next) {
-        setAllPokemonLoaded(true);
-      }
+      const { results, next } = await fetchPokemonList(nextUrl);
+      setAllPokemonList(prev => [...prev, ...results]);
+      setNextUrl(next);
+      if (!next) setAllPokemonLoaded(true);
     } catch (err) {
-      console.error("Ошибка при подгрузке:", err);
+      console.error("Ошибка при подгрузке покемонов:", err);
     } finally {
       setDetailsLoading(false);
     }
@@ -106,7 +85,6 @@ export function Pokemons() {
   }, [displayList.length, allPokemonLoaded, detailsLoading, loadMore]);
 
   const handlePokemonClick = (pokemon) => {
-    console.log("Переход к:", pokemon.name);
     navigate(`/pokemon/${pokemon.name}`);
   };
 
@@ -114,8 +92,8 @@ export function Pokemons() {
     <div className={styles['pokemon-container']}>
       <h1>Pokemons</h1>
       <div className={styles['pokemon-grid']}>
-        {displayList.map((pokemon, index) => (
-          <div key={`${pokemon.id}-${index}`} className={styles['pokemon-card']}>
+        {displayList.map((pokemon) => (
+          <div key={pokemon.id} className={styles['pokemon-card']}>
             <img
               src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`}
               alt={pokemon.name}
@@ -125,14 +103,16 @@ export function Pokemons() {
                 e.target.alt = "Изображение не доступно";
               }}
             />
-            <button type="button" className={styles['pokemon-button']} onClick={() => handlePokemonClick(pokemon)}>
+            <button
+              type="button"
+              className={styles['pokemon-button']}
+              onClick={() => handlePokemonClick(pokemon)}
+            >
               {pokemon.name}
             </button>
           </div>
         ))}
       </div>
-
-      {/* Элемент для отслеживания скролла */}
       <div ref={lastPokemonRef} style={{ height: '20px' }} />
     </div>
   );

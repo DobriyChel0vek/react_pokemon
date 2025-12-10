@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './PokemonPage.module.css';
+import { fetchPokemonDetails } from '../../utilits/api';
 
 const PokemonDetails = ({ pokemonName, onClose }) => {
   const [pokemon, setPokemon] = useState(null);
@@ -9,25 +10,16 @@ const PokemonDetails = ({ pokemonName, onClose }) => {
   const [showStats, setShowStats] = useState(false);
 
   useEffect(() => {
-    const fetchPokemon = async () => {
-      if (!pokemonName) {
-        setLoading(false);
-        return;
-      }
+    if (!pokemonName) {
+      setLoading(false);
+      return;
+    }
 
-      const cleanName = pokemonName.trim().toLowerCase();
-
+    const loadDetails = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        setLoading(true);
-        setError(null);
-
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`);
-
-        if (!response.ok) {
-          throw new Error(`Pokemon "${cleanName}" not found`);
-        }
-
-        const data = await response.json();
+        const data = await fetchPokemonDetails(pokemonName);
         setPokemon(data);
       } catch (err) {
         setError(err.message);
@@ -36,7 +28,7 @@ const PokemonDetails = ({ pokemonName, onClose }) => {
       }
     };
 
-    fetchPokemon();
+    loadDetails();
   }, [pokemonName]);
 
   if (loading) {

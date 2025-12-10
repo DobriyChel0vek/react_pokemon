@@ -1,9 +1,7 @@
-
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Pokemons } from './pages/HomePage/Pokemons';
 import PokemonDetailsPage from './pages/PokemonStatsPage/PokemonDetailsPage';
-import { PokemonDetails } from './pages/PokemonPage';
+
 
 function App() {
   return (
@@ -21,4 +19,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 

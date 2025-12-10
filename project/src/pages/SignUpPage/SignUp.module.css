@@ -1,0 +1,230 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #808080;
+  height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.form-container {
+  height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  background-color: #D3D3D3;
+  padding: 50px 70px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 5px 5px 15px -1px rgba(0,0,0,0.75);
+}
+
+.input {
+  width: 120%;
+  margin-top: 20px;
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  padding: 5px;
+  font-family: 'Inter', sans-serif;
+}
+
+.input:focus {
+  border-color: #5c6bc0; /* Цвет границы при фокусе */
+  outline: none;
+}
+
+
+.marketing {
+  display: flex;
+  margin-bottom: 20px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.marketing > input {
+  margin-right: 10px;
+}
+
+.marketing > label {
+  margin-right: 15px;
+}
+
+.marketing > .error {
+  margin-left: auto;
+  margin-top: 5px;
+}
+
+.submit {
+  width: 100%; /* Занимает всю ширину контейнера */
+  padding: 12px;
+  border-radius: 8px;
+  color: white;
+  background-color: #808080;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background-color 0.2s ease; /* Плавное изменение цвета при наведении */
+  margin-top: 15px;
+}
+
+.submit:hover {
+  background-color: #5F9EA0;
+}
+
+.submit:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(28, 36, 122, 0.3);
+}
+
+.messages {
+  display: flex;
+  justify-content: center;
+}
+
+.success {
+  display: block;
+  color: white;
+  width: fit-content;
+  height: 100px;
+  padding: 5px;
+}
+
+.error {
+  font-size: 12px;
+  color: red;
+  margin-top: 10px;
+  margin-left: -20px;
+  align-self: flex-start;
+  display: block;
+}
+
+body {
+  margin: 0;
+  background-color: #2f3136;
+  font-family: 'Inter', sans-serif;
+}
+
+.logo {
+  font-size: 1.5rem;
+  margin-left: 10px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav > span {
+  margin-right: 20px;
+  color: white;
+}
+
+.server-list {
+  background-color: #202225;
+  padding: 10px;
+  height: 100vh;
+  overflow-y: auto;
+
+}
+
+.server-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.server-item:hover {
+  background-color: #34363f;
+}
+
+.channels {
+  background-color: #202225;
+  padding: 10px;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.channel-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.channel-item:hover {
+  background-color: #34363f;
+}
+
+.chat {
+  flex-grow: 1;
+  padding: 10px;
+  background-color: #2f3136;
+}
+
+.chat-header {
+  padding-bottom: 10px;
+  justify-content: center;
+  text-align: center;
+}
+
+.chat-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-left: 200px;
+}
+
+.chat-input {
+  display: flex;
+}
+
+.chat-input > input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+
+.chat-input > button {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #4f545c;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.chat-input > button:hover{
+  background-color: #367C39;
+}
+
+.chat-input button:active {
+  transform: scale(0.95);
+  background-color: #2d6430;
+}
+
+.main-content {
+  display: flex;
+  height: 100vh;
+}
+
+.left-sidebar {
+  width: 200px;
+}
+
+.right-sidebar {
+  width: 200px;
+  float: right;
+}
+
+.middle-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}

@@ -1,1 +1,1 @@
-export {default as PokemonDetailsPage} from './PokemonDetailsPage.jsx';
+export { default as PokemonDetailsPage } from './PokemonDetailsPage';
