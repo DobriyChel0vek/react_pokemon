@@ -90,7 +90,6 @@ export function Pokemons() {
 
   return (
     <div className={styles['pokemon-container']}>
-      <h1>Pokemons</h1>
       <div className={styles['pokemon-grid']}>
         {displayList.map((pokemon) => (
           <div key={pokemon.id} className={styles['pokemon-card']}>
